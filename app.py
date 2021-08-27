@@ -20,8 +20,9 @@ class GeographicNames(BaseModel):
     gn_id SERIAL PRIMARY KEY,
     geographic_name VARCHAR(255),
     geometry VARCHAR(255), 
-    site VARCHAR(255),
+    site_type VARCHAR(255),
     date_mod VARCHAR(255),
+    dictionary VARCHAR(255),
     geo_database VARCHAR(255),
     google_maps VARCHAR(255),
     open_street_maps VARCHAR(255),
@@ -62,9 +63,6 @@ async def get_geographic_names():
 async def get_geographic_name(gn_id: str):
     data = get_data(gn_id)
     return {"status": data}
-
-
-
 
 
 
