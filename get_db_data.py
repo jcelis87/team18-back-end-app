@@ -6,24 +6,6 @@ import psycopg2
 from config import config
 
 
-# def load_obj (name):
-#     with open(name, 'rb') as f:
-#         #return pickle.load(f)
-#         return pd.read_pkl(name)
-
-THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-my_file = os.path.join(THIS_FOLDER, 'geo_database_sample_50.csv')
-
-# geo_df = load_obj(my_file)
-geo_df = pd.read_csv(my_file,  index_col=0)
-
-# print(my_file)
-print(type(geo_df))
-print(list(geo_df.columns))
-print(geo_df.head())
-print(geo_df.iloc[1])
-
-
 def create_tables():
     """ create tables in the PostgreSQL database"""
     command = (
@@ -213,6 +195,50 @@ def get_data(gn_id):
 #     return row_names
 
 
+def insert_data_df(df, table, cols):
+
+    # Create a list of tupples from the dataframe values
+    tuples = [tuple(x) for x in df.to_numpy()]
+    print(tuples)
+    cols = ','.join(cols)
+    # SQL quert to execute
+    command = (
+        """
+        INSERT INTO geographicnames (
+            geographic_name,
+            geometry, 
+            site_type,
+            date_mod,
+            dictionary,
+            geo_database,
+            google_maps,
+            open_street_maps,
+            aerial_photograph,
+            cartographic_sheet,
+            longitude,
+            latitude
+        ) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """
+    )
+
+    try:
+        params = config()
+        # connect to the PostgreSQL server
+        print('Connecting to the PostgreSQL database...')
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        cur.executemany(command, tuples)
+        # close communication with the PostgreSQL database server
+        cur.close()
+        # commit the changes
+        conn.commit()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("Error: %s" % error)
+    finally:
+        if conn is not None:
+            conn.close()
+
+
 data = [
     (
         'La Florida',
@@ -245,6 +271,64 @@ data = [
 ]
 
 # create_tables()
-insert_data(data)
+# insert_data(data)
 # get_data()
-get_columns_names()
+# get_columns_names()
+
+
+# def load_obj (name):
+#     with open(name, 'rb') as f:
+#         #return pickle.load(f)
+#         return pd.read_pkl(name)
+
+THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+my_file = os.path.join(THIS_FOLDER, 'geo_database_sample_50.csv')
+
+# geo_df = load_obj(my_file)
+df_geo = pd.read_csv(my_file,  index_col=0)
+
+print(list(df_geo.columns))
+
+df_geo = df_geo[[
+    'NOMBRE_GEOGRAFICO',
+    'GEOMETRY',
+    'SITE_TYPE',
+    'FECHA_MODIFICACION',
+    'DICTIONARY',
+    'GEO_DATABASE',
+    'GOOGLE_MAPS',
+    'OPEN_STREET_MAPS',
+    'AERIAL_PHOTOGRAPH',
+    'CARTOGRAPHIC_SHEET',
+    'LONGITUDE',
+    'LATITUDE',
+]]
+
+# print(my_file)
+print(type(df_geo))
+print(list(df_geo.columns))
+print(df_geo.head())
+print(df_geo.iloc[1])
+print(','.join(list(df_geo)))
+
+print(df_geo.to_numpy)
+
+
+columns = [
+    "geographic_name",
+    "geometry",
+    "site_type",
+    "date_mod",
+    "dictionary",
+    "geo_database",
+    "google_maps",
+    "open_street_maps",
+    "aerial_photograph",
+    "cartographic_sheet",
+    "longitude",
+    "latitude",
+]
+
+print(','.join(columns))
+
+#insert_data_df(df_geo, 'geographicnames', columns)

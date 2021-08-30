@@ -10,6 +10,7 @@ psycopg2 = "*"
 numpy = "*"
 pandas = "*"
 shapely = "*"
+aiofiles = "*"
 
 [dev-packages]
 
