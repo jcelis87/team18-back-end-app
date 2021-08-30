@@ -9,6 +9,8 @@ uvicorn = {extras = ["standard"], version = "*"}
 psycopg2 = "*"
 numpy = "*"
 pandas = "*"
+shapely = "*"
+aiofiles = "*"
 
 [dev-packages]
 
