@@ -3,11 +3,7 @@ import json
 import pandas as pd
 
 
-def get_geojson():
-    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    my_file = os.path.join(THIS_FOLDER, 'example.json')
-
-    print('hola')
+def get_geojson(my_file):
 
     with open(my_file, "r") as f:
         data = json.loads(f.read())
@@ -18,3 +14,21 @@ def get_geojson():
             data_coordinates.append(point['properties'])
 
         return data_coordinates
+
+
+def get_geojson_boundaries(my_file):
+
+    with open(my_file, "r") as f:
+        data = json.loads(f.read())
+        data = data['features']
+
+        data_boundaries = []
+        for point in data:
+            boundaries = point['geometry']['coordinates'][0]
+            corners = []
+            for corner in boundaries:
+                corners.append(list(reversed(corner)))
+
+            data_boundaries.append(corners)
+
+        return data_boundaries
