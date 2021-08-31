@@ -10,9 +10,9 @@ from typing import Optional
 from pydantic import BaseModel
 
 # data base connection
-#import psycopg2
+import psycopg2
 from config import config
-#from get_db_data import get_all_data, get_data
+from get_db_data import get_all_data, get_data
 from get_coordinates import get_geojson
 
 
@@ -62,16 +62,16 @@ async def read_notes():
     return {"status": "ok"}
 
 
-# @app.get("/geographic-names/")
-# async def get_geographic_names():
-#     data = get_all_data()
-#     return {"status": data}
+@app.get("/geographic-names/")
+async def get_geographic_names():
+    data = get_all_data()
+    return {"status": data}
 
 
-# @app.get("/geographic-names/{gn_id}/")
-# async def get_geographic_name(gn_id: str):
-#     data = get_data(gn_id)
-#     return {"status": data}
+@app.get("/geographic-names/{gn_id}/")
+async def get_geographic_name(gn_id: str):
+    data = get_data(gn_id)
+    return {"status": data}
 
 
 @app.get("/image/",
