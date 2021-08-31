@@ -10,7 +10,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 # data base connection
-import psycopg2
+#import psycopg2
 from config import config
 from get_db_data import get_all_data, get_data
 from get_coordinates import get_geojson, get_geojson_boundaries
