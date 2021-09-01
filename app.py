@@ -6,6 +6,9 @@ from fastapi.middleware.wsgi import WSGIMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
+# Model
+import model.model1 as model1
+
 from typing import Optional
 from pydantic import BaseModel
 
@@ -93,6 +96,23 @@ async def get_all_coordinates():
     data = get_geojson()
     print(data)
     return {'status': data}
+
+# Model
+@app.get("/empty/")
+async def empty_folders():
+    model1.empty_folders()
+    print("Files deleted!")
+    return {'status': "ok"}
+
+@app.get("/img_corners/")
+async def get_img_corners():
+    corners = model1.get_image_corners()
+    return corners
+
+@app.get("/process_img/")
+async def process_img():
+    results = model1.run_model1()    
+    return results
 
 if __name__ == "__main__":
     # Run the app with uvicorn ASGI server asyncio frameworks. That basically responds to request on parallel and faster

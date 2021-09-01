@@ -11,6 +11,15 @@ numpy = "*"
 pandas = "*"
 shapely = "*"
 aiofiles = "*"
+google-cloud = "*"
+pillow = "*"
+rasterio = "*"
+opencv-python = "*"
+geotiff = "*"
+geopandas = "*"
+imutils = "*"
+google-cloud-storage = "*"
+google-cloud-vision = "*"
 
 [dev-packages]
 
