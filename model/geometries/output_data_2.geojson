@@ -1,0 +1,7 @@
+{
+"type": "FeatureCollection",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:EPSG::4686" } },
+"features": [
+{ "type": "Feature", "properties": { "toponimo_ocr": "C", "confidence": 0.86000001430511475, "centroide_longitud": -75.771450265863905, "centroide_latitud": 3.9756582131638813 }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -75.771893195642051, 3.975829439707753 ], [ -75.771246339804975, 3.976095792109331 ], [ -75.771018037744838, 3.975486986620009 ], [ -75.77162684323855, 3.975220634218431 ], [ -75.771893195642051, 3.975829439707753 ] ] ] } }
+]
+}

@@ -7,11 +7,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 import shutil
 
+# Model
+import model.model1 as model1
+
 from typing import Optional
 from pydantic import BaseModel
 
 # data base connection
-#import psycopg2
+import psycopg2
 from config import config
 from get_db_data import get_all_data, get_data
 from get_coordinates import get_geojson, get_geojson_boundaries, get_geojson_image_boundaries
@@ -138,6 +141,22 @@ async def get_image_boundaries(img_id: str):
 
     return {'status': data}
 
+# Model
+@app.get("/empty/")
+async def empty_folders():
+    model1.empty_folders()
+    print("Files deleted!")
+    return {'status': "ok"}
+
+@app.get("/img_corners/")
+async def get_img_corners():
+    corners = model1.get_image_corners()
+    return corners
+
+@app.get("/process_img/")
+async def process_img():
+    results = model1.run_model1()    
+    return results
 
 # get marker coordinates
 
