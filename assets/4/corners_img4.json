@@ -1,0 +1,10 @@
+{
+    "upper_left":{
+        "latitude": 3.952130957550283,
+        "longitude": -75.82882085855019 
+    },
+    "lower_right":{
+        "latitude": 3.867971405550283,
+        "longitude": -75.74488113955019
+    }
+}
