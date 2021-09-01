@@ -35,4 +35,4 @@ def get_image(img_id: str, ext: str):
                     #         "path": my_file}
 
 
-get_image('2', ".json")
+get_image('1', ".json")

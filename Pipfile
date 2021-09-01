@@ -11,6 +11,8 @@ numpy = "*"
 pandas = "*"
 shapely = "*"
 aiofiles = "*"
+python-multipart = "*"
+pytest-shutil = "*"
 
 [dev-packages]
 

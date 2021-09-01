@@ -1,10 +1,11 @@
 import os
 
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.wsgi import WSGIMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+import shutil
 
 from typing import Optional
 from pydantic import BaseModel
@@ -13,7 +14,7 @@ from pydantic import BaseModel
 #import psycopg2
 from config import config
 from get_db_data import get_all_data, get_data
-from get_coordinates import get_geojson, get_geojson_boundaries
+from get_coordinates import get_geojson, get_geojson_boundaries, get_geojson_image_boundaries
 
 
 class GeographicNames(BaseModel):
@@ -63,6 +64,7 @@ def get_file(img_id: str, ext: str):
     ASSETS_FOLDER = os.path.join(THIS_FOLDER, """assets""")
 
     directory_list = list()
+    my_file_paths = list()
     for root, dirs, files in os.walk(ASSETS_FOLDER, topdown=False):
         for name in dirs:
             my_path = os.path.join(root, name)
@@ -74,13 +76,16 @@ def get_file(img_id: str, ext: str):
                     file_name, file_ext = os.path.splitext(my_file)
                     if os.path.exists(my_file_path) and ext == file_ext:
                         if ext == ".json":
-                            return my_file_path
+                            my_file_paths.append(my_file_path)
+                            # return my_file_path
+                            print(my_file_paths)
                         else:
                             print(my_file_path)
                             print(my_file)
                             return FileResponse(my_file_path, media_type="image/jpeg", filename=my_file)
                     # return {"error": "File not found!",
                     #         "path": my_file}
+    return my_file_paths
 
 
 @app.get("/status/")
@@ -100,26 +105,36 @@ async def get_geographic_name(gn_id: str):
     return {"status": data}
 
 
-@app.get("/image/",
-         responses={200: {"description": "", "content": {"image/jpeg": {"example": ""}}}})
-def get_image():
-    THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-    my_file = os.path.join(THIS_FOLDER, """example.jpg""")
-    print(my_file)
+# @app.get("/image/",
+#          responses={200: {"description": "", "content": {"image/jpeg": {"example": ""}}}})
+# def get_image():
+#     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
+#     my_file = os.path.join(THIS_FOLDER, """example.jpg""")
+#     print(my_file)
 
-    if os.path.exists(my_file):
-        print(my_file)
-        return FileResponse(my_file, media_type="image/jpeg", filename="example.jpg")
-    return {"error": "File not found!",
-            "path": my_file}
+#     if os.path.exists(my_file):
+#         print(my_file)
+#         return FileResponse(my_file, media_type="image/jpeg", filename="example.jpg")
+#     return {"error": "File not found!",
+#             "path": my_file}
 
 # gets images
-
-
 @app.get("/image/{img_id}/",
          responses={200: {"description": "", "content": {"image/jpeg": {"example": ""}}}})
 async def get_image_file(img_id: str):
     return get_file(img_id, ".jpg")
+
+
+# gets image boundaries
+
+
+@app.get("/image-boundaries/{img_id}/")
+async def get_image_boundaries(img_id: str):
+    my_file = get_file(img_id, ".json")
+    data = get_geojson_image_boundaries(my_file[0])
+
+    return {'status': data}
+
 
 # get marker coordinates
 
@@ -127,7 +142,7 @@ async def get_image_file(img_id: str):
 @app.get("/coordinates/{coor_id}/")
 async def get_all_coordinates(coor_id: str):
     my_file = get_file(coor_id, ".json")
-    data = get_geojson(my_file)
+    data = get_geojson(my_file[1])
 
     return {'status': data}
 
@@ -137,9 +152,23 @@ async def get_all_coordinates(coor_id: str):
 @app.get("/boundaries/{coor_id}/")
 async def get_all_boundaries(coor_id: str):
     my_file = get_file(coor_id, ".json")
-    data = get_geojson_boundaries(my_file)
+    data = get_geojson_boundaries(my_file[1])
 
     return {'status': data}
+
+
+# @app.post("/files/")
+# async def create_file(file: bytes = File(...)):
+#     return {"file_size": len(file)}
+
+
+# @app.post("/uploadfile/")
+# async def create_upload_file(uploaded_file: UploadFile = File(...)):
+#     file_location = f"files/{uploaded_file.filename}"
+#     with open(file_location, "wb+") as file_object:
+#         shutil.copyfileobj(uploaded_file.file, file_object)
+
+#     return {"info": f"file '{uploaded_file.filename}' saved at '{file_location}'"}
 
 
 if __name__ == "__main__":
