@@ -4,7 +4,8 @@ import pandas as pd
 
 
 def get_geojson(my_file):
-
+    
+    print(my_file)
     with open(my_file, "r", encoding="utf8") as f:
         data = json.loads(f.read())
         data = data['features']
@@ -13,7 +14,7 @@ def get_geojson(my_file):
         for point in data:
             data_coordinates.append(point['properties'])
 
-        return data_coordinates
+    return data_coordinates
 
 
 def get_geojson_boundaries(my_file):

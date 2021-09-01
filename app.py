@@ -81,13 +81,16 @@ def get_file(img_id: str, ext: str):
                         if ext == ".json":
                             my_file_paths.append(my_file_path)
                             # return my_file_path
-                            print(my_file_paths)
+                            #print(my_file_paths)
                         else:
-                            print(my_file_path)
-                            print(my_file)
+                            #print(my_file_path)
+                            #print(my_file)
                             return FileResponse(my_file_path, media_type="image/jpeg", filename=my_file)
                     # return {"error": "File not found!",
                     #         "path": my_file}
+    my_file_paths.sort()
+    print(my_file_paths)
+
     return my_file_paths
 
 
@@ -162,6 +165,7 @@ async def process_img():
 async def get_all_coordinates(coor_id: str):
     my_file = get_file(coor_id, ".json")
     data = get_geojson(my_file[1])
+    #print(data)
 
     return {'status': data}
 
@@ -170,7 +174,7 @@ async def get_all_coordinates(coor_id: str):
 
 @app.get("/boundaries/{coor_id}/")
 async def get_all_boundaries(coor_id: str):
-    my_file = get_file(coor_id, ".json")
+    my_file = get_file(coor_id, ".json")    
     data = get_geojson_boundaries(my_file[1])
 
     return {'status': data}
