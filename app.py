@@ -158,6 +158,11 @@ async def process_img():
     results = model1.run_model1()    
     return results
 
+@app.get("/get_abspath/")
+async def get_abspath():
+    abs_path = os.path.abspath("model")
+    return {"path": abs_path}
+
 # get marker coordinates
 
 
