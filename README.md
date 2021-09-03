@@ -29,7 +29,7 @@ The model is also hosted here as `model1.py`
 url: [https://github.com/jcelis87/team18-front-end-app.git](https://github.com/jcelis87/team18-front-end-app.git)
 
 In this repository we have our Dash App that consumes the API from the back-end.
-
+=======
 ### User igac
 ### password Team#18
 
