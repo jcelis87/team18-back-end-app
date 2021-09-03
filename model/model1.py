@@ -416,7 +416,7 @@ def combine_geometries(filepath):
 
     all_toponyms_gdf.reset_index(drop=True, inplace=True)
     all_toponyms_gdf = geojson_posprocessing(all_toponyms_gdf)
-    all_toponyms_gdf.to_file("model/text_detected.geojson", driver='GeoJSON')
+    all_toponyms_gdf.to_file("model/text_detected.json", driver='GeoJSON')
     
     return all_toponyms_gdf
 
@@ -474,7 +474,7 @@ def empty_folders():
     try:
         os.remove("model/text_detected.geojson")
     except:
-        print("text_detected.geojson already deleted!")
+        print("text_detected.json already deleted!")
 
 def geojson_posprocessing(geojson_toponyms):
     """
@@ -604,6 +604,7 @@ def run_model1(filepath="model/img_to_process.tif"):
     empty_folders()
     create_geometries(filepath)
     all_toponyms_gdf = combine_geometries(filepath)
+    geotif_to_jpeg(filepath)
     results = all_toponyms_gdf.to_json()
 
     return results

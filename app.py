@@ -83,8 +83,8 @@ def get_file(img_id: str, ext: str):
                             # return my_file_path
                             #print(my_file_paths)
                         else:
-                            #print(my_file_path)
-                            #print(my_file)
+                            print(my_file_path)
+                            print(my_file)
                             return FileResponse(my_file_path, media_type="image/jpeg", filename=my_file)
                     # return {"error": "File not found!",
                     #         "path": my_file}
@@ -128,6 +128,12 @@ async def get_geographic_name(gn_id: str):
 @app.get("/image/{img_id}/",
          responses={200: {"description": "", "content": {"image/jpeg": {"example": ""}}}})
 async def get_image_file(img_id: str):
+    if img_id == "0":
+        return FileResponse("model/img_to_process.jpeg", media_type="image/jpeg", filename="img_to_process.jpeg")
+    if img_id == "logo":
+        return FileResponse("sample_data/logo-igac.jpeg", media_type="image/jpeg", filename="logo-igac.jpeg")
+    if len(img_id) > 4:
+        return FileResponse(f"sample_data/{img_id}.png", media_type="image/jpeg", filename=f"{img_id}.png")
     return get_file(img_id, ".jpg")
 
 
@@ -168,6 +174,10 @@ async def get_abspath():
 
 @app.get("/coordinates/{coor_id}/")
 async def get_all_coordinates(coor_id: str):
+    if coor_id == "0":
+        filename = "model/text_detected.json"
+        data = get_geojson(filename)
+        return {'status': data}
     my_file = get_file(coor_id, ".json")
     data = get_geojson(my_file[1])
     #print(data)
@@ -179,6 +189,10 @@ async def get_all_coordinates(coor_id: str):
 
 @app.get("/boundaries/{coor_id}/")
 async def get_all_boundaries(coor_id: str):
+    if coor_id == "0":
+        filename = "model/text_detected.json"
+        data = get_geojson_boundaries(filename)
+        return {'status': data}
     my_file = get_file(coor_id, ".json")    
     data = get_geojson_boundaries(my_file[1])
 
