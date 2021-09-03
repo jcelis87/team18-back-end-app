@@ -32,5 +32,5 @@ In this repository we have our Dash App that consumes the API from the back-end.
 =======
 ### User igac
 ### password Team#18
-
+ 
 >>>>>>> Stashed changes
