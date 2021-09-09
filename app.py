@@ -5,6 +5,7 @@ from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.wsgi import WSGIMiddleware
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from dotenv import load_dotenv
 import shutil
 
 # Model
@@ -215,4 +216,5 @@ async def get_all_boundaries(coor_id: str):
 
 if __name__ == "__main__":
     # Run the app with uvicorn ASGI server asyncio frameworks. That basically responds to request on parallel and faster
+    load_dotenv()
     uvicorn.run("app:app", port=8000, reload=True)
