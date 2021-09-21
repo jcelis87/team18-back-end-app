@@ -1,9 +1,7 @@
-<<<<<<< Updated upstream
 # team18-back-end-app
 
 
 https://github.com/jcelis87/team18-back-end-app
-=======
 # Team 18 - DS4A project
 
 The base code for our project is hosted in 3 GitHub repositories. They are divided as follows:
@@ -29,8 +27,11 @@ The model is also hosted here as `model1.py`
 url: [https://github.com/jcelis87/team18-front-end-app.git](https://github.com/jcelis87/team18-front-end-app.git)
 
 In this repository we have our Dash App that consumes the API from the back-end.
-=======
-### User igac
-### password Team#18
+---
+
+### User: igac
+### password: Team#18
  
->>>>>>> Stashed changes
+The app can be accesed from:
+
+www.igac-team18.ml:8050
