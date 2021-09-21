@@ -81,14 +81,12 @@ def get_file(img_id: str, ext: str):
                     if os.path.exists(my_file_path) and ext == file_ext:
                         if ext == ".json":
                             my_file_paths.append(my_file_path)
-                            # return my_file_path
-                            #print(my_file_paths)
+                            
                         else:
                             print(my_file_path)
                             print(my_file)
                             return FileResponse(my_file_path, media_type="image/jpeg", filename=my_file)
-                    # return {"error": "File not found!",
-                    #         "path": my_file}
+                   
     my_file_paths.sort()
     print(my_file_paths)
 
@@ -111,21 +109,6 @@ async def get_geographic_name(gn_id: str):
     data = get_data(gn_id)
     return {"status": data}
 
-
-# @app.get("/image/",
-#          responses={200: {"description": "", "content": {"image/jpeg": {"example": ""}}}})
-# def get_image():
-#     THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
-#     my_file = os.path.join(THIS_FOLDER, """example.jpg""")
-#     print(my_file)
-
-#     if os.path.exists(my_file):
-#         print(my_file)
-#         return FileResponse(my_file, media_type="image/jpeg", filename="example.jpg")
-#     return {"error": "File not found!",
-#             "path": my_file}
-
-# gets images
 @app.get("/image/{img_id}/",
          responses={200: {"description": "", "content": {"image/jpeg": {"example": ""}}}})
 async def get_image_file(img_id: str):
@@ -186,8 +169,6 @@ async def get_all_coordinates(coor_id: str):
     return {'status': data}
 
 # gets bounding box boundaries
-
-
 @app.get("/boundaries/{coor_id}/")
 async def get_all_boundaries(coor_id: str):
     if coor_id == "0":
@@ -200,21 +181,8 @@ async def get_all_boundaries(coor_id: str):
     return {'status': data}
 
 
-# @app.post("/files/")
-# async def create_file(file: bytes = File(...)):
-#     return {"file_size": len(file)}
-
-
-# @app.post("/uploadfile/")
-# async def create_upload_file(uploaded_file: UploadFile = File(...)):
-#     file_location = f"files/{uploaded_file.filename}"
-#     with open(file_location, "wb+") as file_object:
-#         shutil.copyfileobj(uploaded_file.file, file_object)
-
-#     return {"info": f"file '{uploaded_file.filename}' saved at '{file_location}'"}
-
-
 if __name__ == "__main__":
-    # Run the app with uvicorn ASGI server asyncio frameworks. That basically responds to request on parallel and faster
+    # Run the app with uvicorn ASGI server asyncio frameworks. 
+    # That basically responds to request on parallel and faster
     load_dotenv()
-    uvicorn.run("app:app", port=8000, reload=True)
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)

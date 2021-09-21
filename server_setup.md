@@ -14,7 +14,7 @@ To run the frontend, type the following commands on the terminal.
 ```
 cd ~/team18front-end-app
 pipenv shell
-nohup gunicorn --b 0.0.0.0:80 index:server
+nohup gunicorn -w 3 -b 0.0.0.0:8050 index:server &
 deactivate
 ```
 
