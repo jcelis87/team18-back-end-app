@@ -29,9 +29,6 @@ url: [https://github.com/jcelis87/team18-front-end-app.git](https://github.com/j
 In this repository we have our Dash App that consumes the API from the back-end.
 ---
 
-### User: igac
-### password: Team#18
- 
 The app can be accesed from:
 
 www.igac-team18.ml:8050
